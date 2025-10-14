@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { UsersServiceApi } from '@api/users/users.service';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  selector: 'app-sign-page',
+  imports: [],
+  templateUrl: './sign-page.component.html',
+  styleUrl: './sign-page.component.scss'
 })
-export class AppComponent {
+export class SignPageComponent {
+
   public constructor(
     private readonly usersServiceApi: UsersServiceApi
   ) {}

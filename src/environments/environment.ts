@@ -1,0 +1,9 @@
+import { environment as devEnvironment } from './environment.development';
+
+
+export const environment = {
+    ...devEnvironment,
+    production: true,
+    dbUrl: 'https://lckdbhezinjmuoblqqdr.supabase.co',
+    dbKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxja2RiaGV6aW5qbXVvYmxxcWRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzOTIxNTcsImV4cCI6MjA3NTk2ODE1N30.ttILjF0CtJ_av3c1poj0rwQlh2oMON454P5xHcd8ZtI'
+};
