@@ -1,0 +1,104 @@
+<div
+  class="flex flex-col justify-start text-center relative rounded-2xl bg-white w-full h-full border-green-600 border-4 p-5"
+>
+  <mat-icon class="text-green-600 cursor-pointer" (click)="goBack()">arrow_back</mat-icon>
+  <div class="pt-5">
+    <h2 class="text-black font-semibold text-3xl">Não tem conta ainda?</h2>
+    <h2 class="text-black font-light text-lg">Sem problemas! Cadastre-se agora:</h2>
+  </div>
+
+  <form [formGroup]="registerForm">
+    <div class="p-10">
+      <mat-form-field appearance="fill" class="w-full justify-center text-left">
+        <mat-label>Usuário:</mat-label>
+        <input matInput type="text" formControlName="username" />
+        <mat-error
+          *ngIf="registerForm.get('username')?.hasError('required')"
+          class="text-xs font-normal text-red-900"
+        >
+          O nome de usuário é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full justify-center text-left">
+        <mat-label>E-Mail:</mat-label>
+        <input matInput type="email" formControlName="email" />
+        <mat-error
+          *ngIf="registerForm.get('email')?.hasError('email')"
+          class="text-xs font-normal text-red-900"
+        >
+          O e-mail inserido é inválido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full justify-center text-left">
+        <mat-label>Senha:</mat-label>
+        <input
+          matInput
+          [type]="hidePassword() ? 'password' : 'text'"
+          formControlName="password"
+          required
+        />
+        <mat-icon
+          matSuffix
+          class="text-color-secondary cursor-pointer"
+          (click)="hidePassword.set(!hidePassword())"
+        >
+          {{ hidePassword() ? 'visibility_off' : 'visibility' }}
+        </mat-icon>
+        <mat-error
+          *ngIf="registerForm.get('password')?.hasError('minlength')"
+          class="text-xs font-normal text-red-900"
+        >
+          O limite mínimo para a senha é de 8 caracteres
+        </mat-error>
+      </mat-form-field>
+      <div class="text-left flex flex-col justify-start w-full gap-2">
+        <ul>
+          <li class="flex items-center">
+            <mat-icon *ngIf="passwordHasUppercase()" color="accent" class="mr-2"
+              >check_circle</mat-icon
+            >
+            <mat-icon *ngIf="!passwordHasUppercase()" color="warn" class="mr-2">cancel</mat-icon>
+            Pelo menos uma letra maiúscula
+          </li>
+          <li class="flex items-center">
+            <mat-icon *ngIf="passwordHasLowercase()" color="accent" class="mr-2"
+              >check_circle</mat-icon
+            >
+            <mat-icon *ngIf="!passwordHasLowercase()" color="warn" class="mr-2">cancel</mat-icon>
+            Pelo menos uma letra minúscula
+          </li>
+          <li class="flex items-center">
+            <mat-icon *ngIf="passwordHasNumber()" color="accent" class="mr-2"
+              >check_circle</mat-icon
+            >
+            <mat-icon *ngIf="!passwordHasNumber()" color="warn" class="mr-2">cancel</mat-icon>
+            Pelo menos um número
+          </li>
+          <li class="flex items-center">
+            <mat-icon *ngIf="passwordHasSpecialChar()" color="accent" class="mr-2"
+              >check_circle</mat-icon
+            >
+            <mat-icon *ngIf="!passwordHasSpecialChar()" color="warn" class="mr-2">cancel</mat-icon>
+            Pelo menos um símbolo especial (ex: &#64;, $, !, etc)
+          </li>
+        </ul>
+      </div>
+    </div>
+  </form>
+
+  <div class="flex flex-col justify-center self-center justify-self-center gap-2">
+    <div class="w-full h-full flex justify-center gap-4">
+      <button
+        type="button"
+        mat-button
+        [disabled]="registerForm.invalid"
+        (click)="save()"
+        class="bg-green-600 w-[111px] rounded text-white cursor-pointer disabled:cursor-auto big-text"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </div>
+</div>

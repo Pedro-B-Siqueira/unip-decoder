@@ -12,6 +12,7 @@
       "@app/*": ["./src/app/*"],
       "@core/*": ["./src/core/*"],
       "@api/*": ["./src/core/api/*"],
+      "@pipes/*": ["./src/core/pipes/*"],
       "@env/*": ["./src/environments/*"]
     }
   },

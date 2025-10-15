@@ -1,1 +1,27 @@
-@import "tailwindcss";
+// Custom Theming for Angular Material
+// For more information: https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@use './theme-colors' as my-theme; // location of generated file
+
+
+html {
+  @include mat.theme(
+    (
+      color: (
+      primary: my-theme.$primary-palette,
+      tertiary: my-theme.$tertiary-palette,
+    ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+@import 'tailwindcss';
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}

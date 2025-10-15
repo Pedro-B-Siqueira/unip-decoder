@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { map, firstValueFrom } from 'rxjs';
-import { Users, UsersSearchParams } from './users.type';
+import { Users, UsersSaveParams, UsersSearchParams } from './users.type';
 import { Db } from '@api/db/dbConnect';
 import { SEARCH_USERS } from './users.query';
+import bcrypt from 'bcryptjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersServiceApi {
   private dbInstance = new Db();
-  private db = this.dbInstance.connect();
 
   public constructor() {}
 
@@ -17,17 +17,64 @@ export class UsersServiceApi {
     return firstValueFrom(await this.dbInstance.dbGraphQlConnection(SEARCH_USERS));
   }
 
-  public async get(params: UsersSearchParams): Promise<Users | null> {
-    const { data, error } = await (await this.db)
-      .from('users')
-      .select('*')
-      .filter('username', 'like', params.username)
-      .filter('id', 'ilike', params.id)
-      .filter('email', 'ilike', params.email);
+  public async verifyLogin(params: UsersSearchParams): Promise<Users | null> {
+    const db = await this.dbInstance.connect();
+
+    const query = db.from('users').select('*').filter('active', 'eq', true);
+
+    if (params.username) {
+      query.eq('username', params.username);
+    }
+
+    if (params.id) {
+      query.eq('id', params.id);
+    }
+
+    if (params.email) {
+      query.eq('email', params.email.toLowerCase());
+    }
+
+    const { data, error } = await query;
+
     if (data && !error) {
-      return data[0] as Users;
+      const hashedPassword = data[0].password
+      if (await bcrypt.compare(params.password, hashedPassword)) {
+        return data[0] as Users;
+      }
+      throw new Error(`As senhas não coincidem`);
     } else {
-      throw new Error("Houve um erro ao buscar esse usuário.", error)
+      throw new Error(`Houve um erro ao buscar esse usuário: ${error?.message || ''}`);
+    }
+  }
+
+  public async save(params: UsersSaveParams): Promise<Users | null> {
+    const db = await this.dbInstance.connect();
+
+    try {
+      const mutation = db
+        .from('users')
+        .insert({
+          username: params.username,
+          email: params.email.toLowerCase(),
+          password: bcrypt.hashSync(params.password, 12),
+        })
+        .select();
+
+      const { data, error } = await mutation;
+
+      if (error) {
+        console.error('Erro ao inserir usuário:', error);
+        throw new Error(`Houve um erro ao salvar o usuário: ${error?.message || ''}`);
+      }
+
+      if (data) {
+        return data[0] as Users;
+      }
+
+      throw new Error('Erro desconhecido ao salvar o usuário.');
+    } catch (error) {
+      console.error('Erro no processo de salvamento do usuário:', error);
+      throw new Error('Erro ao salvar o usuário.');
     }
   }
 

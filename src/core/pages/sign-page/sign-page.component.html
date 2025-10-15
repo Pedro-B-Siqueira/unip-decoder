@@ -1,7 +1,8 @@
-<h1 class="text-4xl font-bold text-center text-gray-800 mb-6">Test</h1>
-
-<button 
-  (click)="getAllUsers()" 
-  class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-  Get Users
-</button>
+<div id="bg-green-rays" class="flex w-screen relative justify-center items-center h-screen">
+  @if (status === '' || status === null) {
+    <sign-dialog (signType)="changeStatus($event)"></sign-dialog>
+  } @else if (status === "register") {
+    <app-register-dialog (signType)="changeStatus($event)"></app-register-dialog>
+  }
+  
+</div>
