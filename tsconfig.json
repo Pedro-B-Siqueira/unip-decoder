@@ -10,6 +10,8 @@
       "@core/*": ["./src/core/*"],
       "@api/*": ["./src/core/api/*"],
       "@pipes/*": ["./src/core/pipes/*"],
+      "@pages/*": ["./src/core/pages/*"],
+      "@images/*": ["./src/core/images/*"],
       "@env/*": ["./src/environments/*"]
     },
     "noImplicitOverride": true,

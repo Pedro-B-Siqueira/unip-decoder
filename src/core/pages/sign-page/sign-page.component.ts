@@ -4,37 +4,40 @@ import { CommonModule } from '@angular/common';
 import { SignDialogComponent } from '@core/components/sign-dialog/sign-dialog.component';
 import { RegisterDialogComponent } from '@core/components/register-dialog/register-dialog.component';
 import { Router } from '@angular/router';
-
+import Toast from 'typescript-toastify';
 
 @Component({
   selector: 'app-sign-page',
-  imports: [
-    CommonModule,
-    SignDialogComponent,
-    RegisterDialogComponent,
-  ],
+  imports: [CommonModule, SignDialogComponent, RegisterDialogComponent],
   templateUrl: './sign-page.component.html',
   styleUrl: './sign-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignPageComponent {
-  public status: string| null = null
+  public status: string | null = null;
 
   public constructor(
     private readonly usersServiceApi: UsersServiceApi,
-    private readonly router: Router,
+    private readonly router: Router
   ) {}
 
   public getAllUsers(): any {
-    return this.usersServiceApi.search()
+    return this.usersServiceApi.search();
   }
 
   public async changeStatus(response: string) {
-    this.status = response
+    this.status = response;
     if (this.status === 'success') {
-      alert("Bem-vindo ao sistema!")
-      this.router.navigate(['/central'])
+      const toast = new Toast({
+        position: 'bottom-right',
+        toastMsg: '🎉 O login foi um sucesso! Seja bem-vindo!',
+        pauseOnHover: true,
+        autoCloseTime: 2500,
+        pauseOnFocusLoss: true,
+        type: 'success',
+        theme: 'light',
+      });
+      this.router.navigate(['/central']);
     }
   }
 }
-

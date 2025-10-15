@@ -1,8 +1,9 @@
-<div id="bg-green-rays" class="flex w-screen relative justify-center items-center h-screen">
+<div id="bg-green-rays" class="flex flex-col w-screen relative justify-between items-center h-screen">
+  <img src="logo.png" alt="logo" class="flex justify-right max-w-[15%] min-w-[10%] gap-2 relative">
   @if (status === '' || status === null) {
-    <sign-dialog (signType)="changeStatus($event)"></sign-dialog>
+    <sign-dialog (signType)="changeStatus($event)" class="slide-in mb-10"></sign-dialog>
   } @else if (status === "register") {
-    <app-register-dialog (signType)="changeStatus($event)"></app-register-dialog>
+    <app-register-dialog (signType)="changeStatus($event)" class="slide-in mb-10"></app-register-dialog>
   }
   
 </div>

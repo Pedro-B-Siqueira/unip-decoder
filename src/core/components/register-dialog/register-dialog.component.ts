@@ -24,6 +24,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { Subject } from 'rxjs';
 import { RegisterDialogService } from './register-dialog.service';
 import { Users } from '@core/api/users/users.type';
+import Toast from 'typescript-toastify';
 
 @Component({
   selector: 'app-register-dialog',
@@ -106,21 +107,33 @@ export class RegisterDialogComponent implements OnDestroy, OnInit {
 
         if (migration) {
           this.signType.emit('');
-          alert(
-            'Sua conta foi cadastrada! Use seus dados para fazer login quando entrar novamente.'
-          );
+          const toast = new Toast({
+            position: 'bottom-right',
+            toastMsg: '🎉 Sua conta foi cadastrada! Realize o login para prosseguir.',
+            pauseOnHover: true,
+            autoCloseTime: 2500,
+            pauseOnFocusLoss: true,
+            type: 'success',
+            theme: 'dark',
+          });
           return;
         } else {
           console.error('Erro desconhecido ao salvar o usuário.');
-          alert('Ocorreu um erro ao tentar cadastrar o usuário. Tente novamente.');
         }
       } catch (error) {
         console.error('Houve um erro ao fazer o cadastro:', error);
-        alert('Ocorreu um erro ao tentar cadastrar o usuário. Tente novamente.');
       }
     } else {
       console.error('Formulário inválido.');
-      alert('Por favor, preencha todos os campos obrigatórios.');
+      const toast = new Toast({
+        position: 'bottom-right',
+        toastMsg: '⚠️ Por vaor, garanta que todos os campos estão preenchidos e são válidos.',
+        pauseOnHover: true,
+        autoCloseTime: 3500,
+        pauseOnFocusLoss: true,
+        type: 'error',
+        theme: 'dark',
+      });
     }
   }
 
