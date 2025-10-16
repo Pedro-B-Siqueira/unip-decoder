@@ -28,8 +28,8 @@ export class SignPageComponent {
   public async changeStatus(response: string) {
     this.status = response;
     if (this.status === 'success') {
-      const toast = new Toast({
-        position: 'bottom-right',
+      new Toast({
+        position: 'top-center',
         toastMsg: '🎉 O login foi um sucesso! Seja bem-vindo!',
         pauseOnHover: true,
         autoCloseTime: 2500,

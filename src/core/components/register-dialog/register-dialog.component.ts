@@ -63,7 +63,7 @@ export class RegisterDialogComponent implements OnDestroy, OnInit {
         [
           Validators.required,
           Validators.minLength(8),
-          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).+$'),
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).+$'),
         ],
       ],
     });
@@ -95,7 +95,7 @@ export class RegisterDialogComponent implements OnDestroy, OnInit {
   }
 
   public passwordHasSpecialChar(): boolean {
-    return /[\w\s]/.test(this.registerForm.get('password')?.value);
+    return /[@$!%*?&]/.test(this.registerForm.get('password')?.value);
   }
 
   public async save() {
@@ -107,7 +107,7 @@ export class RegisterDialogComponent implements OnDestroy, OnInit {
 
         if (migration) {
           this.signType.emit('');
-          const toast = new Toast({
+          new Toast({
             position: 'bottom-right',
             toastMsg: '🎉 Sua conta foi cadastrada! Realize o login para prosseguir.',
             pauseOnHover: true,
@@ -125,7 +125,7 @@ export class RegisterDialogComponent implements OnDestroy, OnInit {
       }
     } else {
       console.error('Formulário inválido.');
-      const toast = new Toast({
+      new Toast({
         position: 'bottom-right',
         toastMsg: '⚠️ Por vaor, garanta que todos os campos estão preenchidos e são válidos.',
         pauseOnHover: true,

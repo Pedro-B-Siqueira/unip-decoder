@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Users, UsersSaveParams, UsersSearchParams } from './users.type';
 import { Db } from '@api/db/dbConnect';
 import { SEARCH_USERS } from './users.query';
@@ -43,21 +43,34 @@ export class UsersServiceApi {
         if (await bcrypt.compare(params.password, hashedPassword)) {
           return data[0] as Users;
         }
+        new Toast({
+          position: 'top-center',
+          toastMsg: '⚠️ As senhas não coincidem',
+          autoCloseTime: 3000,
+          canClose: true,
+          showProgress: true,
+          pauseOnHover: true,
+          pauseOnFocusLoss: true,
+          type: 'error',
+          theme: 'dark',
+        });
+        throw new Error(`A conta não existe no banco de dados`);
+      } else {
+        new Toast({
+          position: 'top-center',
+          toastMsg: '⚠️ A conta que você inseriu não existe',
+          autoCloseTime: 3000,
+          canClose: true,
+          showProgress: true,
+          pauseOnHover: true,
+          pauseOnFocusLoss: true,
+          type: 'error',
+          theme: 'dark',
+        });
+        throw new Error(`As senhas não coincidem`);
       }
-      const toast = new Toast({
-        position: 'bottom-right',
-        toastMsg: '⚠️ As senhas não coincidem',
-        autoCloseTime: 3000,
-        canClose: true,
-        showProgress: true,
-        pauseOnHover: true,
-        pauseOnFocusLoss: true,
-        type: 'error',
-        theme: 'dark',
-      });
-      throw new Error(`As senhas não coincidem`);
     } else {
-      const toast = new Toast({
+      new Toast({
         position: 'bottom-right',
         toastMsg: '⚠️ Houve um erro ao tentar verificar o login',
         pauseOnHover: true,
@@ -86,7 +99,7 @@ export class UsersServiceApi {
       const { data, error } = await mutation;
 
       if (error) {
-        const toast = new Toast({
+        new Toast({
           position: 'bottom-right',
           toastMsg: '⚠️ Houve um erro ao tentar salvar o usuário',
           pauseOnHover: true,
@@ -102,7 +115,7 @@ export class UsersServiceApi {
         return data[0] as Users;
       }
 
-      const toast = new Toast({
+      new Toast({
         position: 'bottom-right',
         toastMsg: '⚠️ Houve um erro ao tentar salvar o usuário',
         pauseOnHover: true,
@@ -113,7 +126,7 @@ export class UsersServiceApi {
       });
       throw new Error('Erro desconhecido ao salvar o usuário.');
     } catch (error) {
-      const toast = new Toast({
+      new Toast({
         position: 'bottom-right',
         toastMsg: '⚠️ Houve um erro ao tentar salvar o usuário',
         pauseOnHover: true,

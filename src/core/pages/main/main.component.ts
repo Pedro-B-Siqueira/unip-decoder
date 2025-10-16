@@ -1,8 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { HeaderComponent } from '@core/components/header/header.component'
 
 @Component({
   selector: 'app-main',
-  imports: [],
+  imports: [CommonModule, HeaderComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
