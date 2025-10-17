@@ -43,6 +43,7 @@ import { Subject } from 'rxjs';
 })
 export class SignDialogComponent implements OnDestroy {
   @Output() public readonly signType: EventEmitter<string> = new EventEmitter();
+  @Output() public readonly userId: EventEmitter<string> = new EventEmitter();
 
   public signForm: FormGroup;
   public hidePassword = signal<boolean>(true);
@@ -101,7 +102,7 @@ export class SignDialogComponent implements OnDestroy {
     }
 
     if (result) {
-      this.signType.emit('success');
+      this.userId.emit(result.id);
     }
     return;
   }

@@ -8,7 +8,7 @@ export const routes: Routes = [
         component: SignPageComponent
     },
     {
-        path: "central",
+        path: ":id/central",
         component: MainComponent
     }
 ];

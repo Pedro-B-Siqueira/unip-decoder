@@ -3,6 +3,7 @@ import { UsersServiceApi } from '@api/users/users.service';
 import { CommonModule } from '@angular/common';
 import { SignDialogComponent } from '@core/components/sign-dialog/sign-dialog.component';
 import { RegisterDialogComponent } from '@core/components/register-dialog/register-dialog.component';
+import { SignPageService } from './sign-page.service'
 import { Router } from '@angular/router';
 import Toast from 'typescript-toastify';
 
@@ -18,6 +19,7 @@ export class SignPageComponent {
 
   public constructor(
     private readonly usersServiceApi: UsersServiceApi,
+    private readonly signPageService: SignPageService,
     private readonly router: Router
   ) {}
 
@@ -25,9 +27,10 @@ export class SignPageComponent {
     return this.usersServiceApi.search();
   }
 
-  public async changeStatus(response: string) {
-    this.status = response;
-    if (this.status === 'success') {
+  public async login(userId: string): Promise<void> {
+    if (userId) {
+      await this.signPageService.updateLastLogin(userId)
+      localStorage.setItem('session', 'ok')
       new Toast({
         position: 'top-center',
         toastMsg: '🎉 O login foi um sucesso! Seja bem-vindo!',
@@ -37,7 +40,11 @@ export class SignPageComponent {
         type: 'success',
         theme: 'light',
       });
-      this.router.navigate(['/central']);
+      this.router.navigate([userId + '/central']);
     }
+  }
+
+  public async changeStatus(response: string) {
+    this.status = response;
   }
 }
