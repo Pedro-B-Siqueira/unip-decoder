@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderComponent } from '@core/components/header/header.component';
 import { MainService } from './main.service';
+import { EncryptDialogComponent } from '@core/components/encrypt-dialog/encrypt-dialog.component';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -13,7 +14,7 @@ dayjs.extend(utc);
 
 @Component({
   selector: 'app-main',
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, EncryptDialogComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
