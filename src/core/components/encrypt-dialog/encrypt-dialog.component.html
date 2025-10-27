@@ -1,1 +1,27 @@
-<p>encrypt-dialog works!</p>
+<div class="crypto-box flex flex-col justify-start text-center relative rounded-2xl bg-white w-full h-full border-green-600 border-4 p-5">
+    <h2 class="text-black font-semibold text-3xl pt-5">CRIPTOGRAFAR</h2>
+    <div class="select-box pt-5">
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Selecione o tipo de criptografia:</mat-label>
+            <select matNativeControl id="crypto" [(ngModel)]="selectedMethod" required>
+                <option value="cifra">Cifra de Cesar</option>
+            </select>
+        </mat-form-field>
+
+        <div class="form pt-5">
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Texto que sera criptografado</mat-label>
+                <textarea placeholder="Digite o que será criptografado..." [(ngModel)]="inputText" required></textarea>
+            </mat-form-field>
+
+            <button class="text-black font-semibold text-3xl pt-5" mat-raised-button color="primary" (click)="encrypt()" [disabled]="!inputText">Criptografar</button>
+
+        </div>
+
+        <div *ngIf="encryptedText">
+            <h4>Resultado</h4>
+            <p> {{ encryptedText }} </p>
+            <button (click)="copyText()">Copiar!</button>
+        </div>
+    </div>
+</div>
