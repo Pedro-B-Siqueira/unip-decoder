@@ -1,3 +1,3 @@
 export enum selectedMethod {
-    CESAR = 'cesar'
+    CESAR = 'Cesar'
 }

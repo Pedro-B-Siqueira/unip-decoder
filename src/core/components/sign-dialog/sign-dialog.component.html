@@ -1,74 +1,90 @@
-<div
-  class="flex flex-col justify-start text-center relative rounded-2xl bg-white w-full h-full border-green-600 border-4 p-5"
->
-  <div class="pt-5">
-    <h2 class="text-black font-semibold text-3xl">Seja bem vindo ao DECODERunip</h2>
-    <h2 class="text-black font-light text-lg">Para iniciarmos, por favor faça o login:</h2>
+<div class="login-box">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="icon-container">
+      <mat-icon class="login-icon">login</mat-icon>
+    </div>
+    <h2>BEM-VINDO</h2>
+    <p class="subtitle">Faça login para continuar</p>
   </div>
 
-  <form [formGroup]="signForm">
-    <div class="p-10">
-      <mat-radio-group formControlName="loginMethod" class="flex justify-start">
-        <mat-radio-button value="username" class="mr-4">Usuário</mat-radio-button>
-        <mat-radio-button value="email">E-mail</mat-radio-button>
+  <!-- Form Section -->
+  <form [formGroup]="signForm" class="form-section">
+    <!-- Login Method Toggle -->
+    <div class="login-method-section">
+      <mat-radio-group formControlName="loginMethod" class="radio-group">
+        <mat-radio-button value="username" class="radio-option">
+          <div class="radio-content">
+            <mat-icon>account_circle</mat-icon>
+            <span>Usuário</span>
+          </div>
+        </mat-radio-button>
+        <mat-radio-button value="email" class="radio-option">
+          <div class="radio-content">
+            <mat-icon>email</mat-icon>
+            <span>E-mail</span>
+          </div>
+        </mat-radio-button>
       </mat-radio-group>
+    </div>
 
-      <mat-form-field *ngIf="signForm.get('loginMethod')?.value === 'username'" appearance="fill" class="w-full justify-center text-left">
-        <mat-label>Usuário:</mat-label>
-        <input matInput type="text" formControlName="username" />
-      </mat-form-field>
+    <!-- Username Field -->
+    <mat-form-field
+      *ngIf="signForm.get('loginMethod')?.value === 'username'"
+      appearance="fill"
+      class="w-full"
+    >
+      <mat-label>Usuário</mat-label>
+      <input matInput type="text" formControlName="username" />
+      <mat-icon matPrefix class="field-icon">account_circle</mat-icon>
+    </mat-form-field>
 
-      <mat-form-field *ngIf="signForm.get('loginMethod')?.value === 'email'" appearance="fill" class="w-full justify-center text-left">
-        <mat-label>E-Mail:</mat-label>
-        <input matInput type="email" formControlName="email" />
-      </mat-form-field>
+    <!-- Email Field -->
+    <mat-form-field
+      *ngIf="signForm.get('loginMethod')?.value === 'email'"
+      appearance="fill"
+      class="w-full"
+    >
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" formControlName="email" />
+      <mat-icon matPrefix class="field-icon">email</mat-icon>
+    </mat-form-field>
 
-      <mat-form-field appearance="fill" class="w-full justify-center text-left">
-        <mat-label>Senha:</mat-label>
-        <input
-          matInput
-          [type]="hidePassword() ? 'password' : 'text'"
-          formControlName="password"
-          required
-        />
-        <mat-icon
-          matSuffix
-          class="text-color-secondary cursor-pointer"
-          (click)="hidePassword.set(!hidePassword())"
-        >
-          {{ hidePassword() ? 'visibility_off' : 'visibility' }}
-        </mat-icon>
-        <mat-error
-          *ngIf="signForm.get('password')?.hasError('minlength')"
-          class="text-xs font-normal text-red-900"
-        >
-          O limite mínimo para a senha é de 8 caracteres
-        </mat-error>
-      </mat-form-field>
+    <!-- Password Field -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Senha</mat-label>
+      <input
+        matInput
+        [type]="hidePassword() ? 'password' : 'text'"
+        formControlName="password"
+        required
+      />
+      <mat-icon matPrefix class="field-icon">lock</mat-icon>
+      <mat-icon matSuffix class="visibility-icon" (click)="hidePassword.set(!hidePassword())">
+        {{ hidePassword() ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
+      <mat-error *ngIf="signForm.get('password')?.hasError('minlength')">
+        O limite mínimo para a senha é de 8 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Login Button -->
+    <button
+      type="button"
+      mat-raised-button
+      [disabled]="signForm.invalid"
+      (click)="login()"
+      class="login-button"
+    >
+      <mat-icon>login</mat-icon>
+      Entrar
+    </button>
+
+    <!-- Register Link -->
+    <div class="register-link-container">
+      <button type="button" mat-button (click)="register()" class="register-link">
+        Não tem uma conta? <strong>Cadastre-se</strong>
+      </button>
     </div>
   </form>
-
-  <div class="flex flex-col justify-center self-center justify-self-center gap-2">
-    <div class="w-full h-full flex justify-center gap-4">
-      <button
-        type="button"
-        mat-button
-        [disabled]="signForm.invalid"
-        (click)="login()"
-        class="bg-green-600 w-[111px] rounded text-white cursor-pointer disabled:cursor-auto big-text"
-      >
-        Entrar
-      </button>
-    </div>
-    <div class="w-full h-full flex flex-col self-center content-center items-center justify-self-center justify-center gap-1 text-xs">
-      <button
-        type="button"
-        mat-button
-        (click)="register()"
-        class="w-[80%] rounded text-green cursor-pointer disabled:cursor-auto small-text"
-      >
-        Não tem uma conta? Cadastre-se
-      </button>
-    </div>
-  </div>
 </div>

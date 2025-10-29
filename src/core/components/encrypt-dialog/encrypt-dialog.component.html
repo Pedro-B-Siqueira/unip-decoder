@@ -1,27 +1,69 @@
-<div class="crypto-box flex flex-col justify-start text-center relative rounded-2xl bg-white w-full h-full border-green-600 border-4 p-5">
-    <h2 class="text-black font-semibold text-3xl pt-5">CRIPTOGRAFAR</h2>
-    <div class="select-box pt-5">
-        <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Selecione o tipo de criptografia:</mat-label>
-            <select matNativeControl id="crypto" [(ngModel)]="selectedMethod" required>
-                <option value="cifra">Cifra de Cesar</option>
-            </select>
-        </mat-form-field>
-
-        <div class="form pt-5">
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Texto que sera criptografado</mat-label>
-                <textarea placeholder="Digite o que será criptografado..." [(ngModel)]="inputText" required></textarea>
-            </mat-form-field>
-
-            <button class="text-black font-semibold text-3xl pt-5" mat-raised-button color="primary" (click)="encrypt()" [disabled]="!inputText">Criptografar</button>
-
-        </div>
-
-        <div *ngIf="encryptedText">
-            <h4>Resultado</h4>
-            <p> {{ encryptedText }} </p>
-            <button [cdkCopyToClipboard]="encryptedText" (click)="copyText()">Copiar!</button>
-        </div>
+<div class="crypto-box">
+  <div class="header-section">
+    <div class="icon-container">
+      <mat-icon class="lock-icon">lock</mat-icon>
     </div>
+    <h2>CRIPTOGRAFAR</h2>
+  </div>
+
+  <form [formGroup]="encryptForm" class="form-section">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Tipo de criptografia</mat-label>
+      <mat-select id="crypto" formControlName="selectedMethod" required>
+        @for (option of selectOptions; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (encryptForm.get('selectedMethod')?.value === 'Cesar') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Quantidade de casas que deseja pular: </mat-label>
+        <input matInput type="number" formControlName="jumpLetters" />
+      </mat-form-field>
+    }
+
+    <mat-form-field appearance="fill" class="w-full textarea-field">
+      <mat-label>Texto para criptografar</mat-label>
+      <textarea
+        matInput
+        placeholder="Digite o que será criptografado..."
+        formControlName="commonText"
+        required
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="encrypt()"
+      [disabled]="encryptForm.invalid"
+      class="encrypt-button"
+    >
+      <mat-icon>shield</mat-icon>
+      Criptografar Agora
+    </button>
+  </form>
+
+  @if (encryptedText) {
+    <div class="result-section">
+      <div class="result-header">
+        <mat-icon class="check-icon">check_circle</mat-icon>
+        <h4>Texto Criptografado</h4>
+      </div>
+
+      <div class="result-content">
+        <p class="encrypted-text">{{ encryptedText }}</p>
+        <mat-icon class="icon copy-icon" [cdkCopyToClipboard]="encryptedText" (click)="copyText()">
+          content_copy
+        </mat-icon>
+      </div>
+
+      <div class="success-badge">
+        <mat-icon>verified</mat-icon>
+        Criptografia bem-sucedida
+      </div>
+    </div>
+  }
 </div>
