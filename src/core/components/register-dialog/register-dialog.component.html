@@ -1,104 +1,93 @@
-<div
-  class="flex flex-col justify-start text-center relative rounded-2xl bg-white w-full h-full border-green-600 border-4 p-5"
->
-  <mat-icon class="text-green-600 cursor-pointer" (click)="goBack()">arrow_back</mat-icon>
-  <div class="pt-5">
-    <h2 class="text-black font-semibold text-3xl">Não tem conta ainda?</h2>
-    <h2 class="text-black font-light text-lg">Sem problemas! Cadastre-se agora:</h2>
+<div class="register-box">
+  <!-- Back Arrow -->
+  <mat-icon class="back-arrow" (click)="goBack()">arrow_back</mat-icon>
+
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="icon-container">
+      <mat-icon class="person-icon">person_add</mat-icon>
+    </div>
+    <h2>CADASTRO</h2>
+    <p class="subtitle">Crie sua conta e comece a usar</p>
   </div>
 
-  <form [formGroup]="registerForm">
-    <div class="p-10">
-      <mat-form-field appearance="fill" class="w-full justify-center text-left">
-        <mat-label>Usuário:</mat-label>
-        <input matInput type="text" formControlName="username" />
-        <mat-error
-          *ngIf="registerForm.get('username')?.hasError('required')"
-          class="text-xs font-normal text-red-900"
-        >
-          O nome de usuário é obrigatório
-        </mat-error>
-      </mat-form-field>
+  <!-- Form Section -->
+  <form [formGroup]="registerForm" class="form-section">
+    <!-- Username Field -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Usuário</mat-label>
+      <input matInput type="text" formControlName="username" />
+      <mat-icon matPrefix class="field-icon">account_circle</mat-icon>
+      <mat-error *ngIf="registerForm.get('username')?.hasError('required')">
+        O nome de usuário é obrigatório
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field appearance="fill" class="w-full justify-center text-left">
-        <mat-label>E-Mail:</mat-label>
-        <input matInput type="email" formControlName="email" />
-        <mat-error
-          *ngIf="registerForm.get('email')?.hasError('email')"
-          class="text-xs font-normal text-red-900"
-        >
-          O e-mail inserido é inválido
-        </mat-error>
-      </mat-form-field>
+    <!-- Email Field -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" formControlName="email" />
+      <mat-icon matPrefix class="field-icon">email</mat-icon>
+      <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+        O e-mail inserido é inválido
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field appearance="fill" class="w-full justify-center text-left">
-        <mat-label>Senha:</mat-label>
-        <input
-          matInput
-          [type]="hidePassword() ? 'password' : 'text'"
-          formControlName="password"
-          required
-        />
-        <mat-icon
-          matSuffix
-          class="text-color-secondary cursor-pointer"
-          (click)="hidePassword.set(!hidePassword())"
-        >
-          {{ hidePassword() ? 'visibility_off' : 'visibility' }}
-        </mat-icon>
-        <mat-error
-          *ngIf="registerForm.get('password')?.hasError('minlength')"
-          class="text-xs font-normal text-red-900"
-        >
-          O limite mínimo para a senha é de 8 caracteres
-        </mat-error>
-      </mat-form-field>
-      <div class="text-left flex flex-col justify-start w-full gap-2">
-        <ul>
-          <li class="flex items-center">
-            <mat-icon *ngIf="passwordHasUppercase()" color="accent" class="mr-2"
-              >check_circle</mat-icon
-            >
-            <mat-icon *ngIf="!passwordHasUppercase()" color="warn" class="mr-2">cancel</mat-icon>
-            Pelo menos uma letra maiúscula
-          </li>
-          <li class="flex items-center">
-            <mat-icon *ngIf="passwordHasLowercase()" color="accent" class="mr-2"
-              >check_circle</mat-icon
-            >
-            <mat-icon *ngIf="!passwordHasLowercase()" color="warn" class="mr-2">cancel</mat-icon>
-            Pelo menos uma letra minúscula
-          </li>
-          <li class="flex items-center">
-            <mat-icon *ngIf="passwordHasNumber()" color="accent" class="mr-2"
-              >check_circle</mat-icon
-            >
-            <mat-icon *ngIf="!passwordHasNumber()" color="warn" class="mr-2">cancel</mat-icon>
-            Pelo menos um número
-          </li>
-          <li class="flex items-center">
-            <mat-icon *ngIf="passwordHasSpecialChar()" color="accent" class="mr-2"
-              >check_circle</mat-icon
-            >
-            <mat-icon *ngIf="!passwordHasSpecialChar()" color="warn" class="mr-2">cancel</mat-icon>
-            Pelo menos um símbolo especial (ex: &#64;, $, !, etc)
-          </li>
-        </ul>
-      </div>
-    </div>
-  </form>
-
-  <div class="flex flex-col justify-center self-center justify-self-center gap-2">
-    <div class="w-full h-full flex justify-center gap-4">
-      <button
-        type="button"
-        mat-button
-        [disabled]="registerForm.invalid"
-        (click)="save()"
-        class="bg-green-600 w-[111px] rounded text-white cursor-pointer disabled:cursor-auto big-text"
+    <!-- Password Field -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Senha</mat-label>
+      <input
+        matInput
+        [type]="hidePassword() ? 'password' : 'text'"
+        formControlName="password"
+        required
+      />
+      <mat-icon matPrefix class="field-icon">lock</mat-icon>
+      <mat-icon
+        matSuffix
+        class="visibility-icon"
+        (click)="hidePassword.set(!hidePassword())"
       >
-        Cadastrar
-      </button>
+        {{ hidePassword() ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+        O limite mínimo para a senha é de 8 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Password Requirements -->
+    <div class="password-requirements">
+      <h4 class="requirements-title">Requisitos da senha:</h4>
+      <ul class="requirements-list">
+        <li [class.valid]="passwordHasUppercase()" [class.invalid]="!passwordHasUppercase()">
+          <mat-icon>{{ passwordHasUppercase() ? 'check_circle' : 'cancel' }}</mat-icon>
+          <span>Pelo menos uma letra maiúscula</span>
+        </li>
+        <li [class.valid]="passwordHasLowercase()" [class.invalid]="!passwordHasLowercase()">
+          <mat-icon>{{ passwordHasLowercase() ? 'check_circle' : 'cancel' }}</mat-icon>
+          <span>Pelo menos uma letra minúscula</span>
+        </li>
+        <li [class.valid]="passwordHasNumber()" [class.invalid]="!passwordHasNumber()">
+          <mat-icon>{{ passwordHasNumber() ? 'check_circle' : 'cancel' }}</mat-icon>
+          <span>Pelo menos um número</span>
+        </li>
+        <li [class.valid]="passwordHasSpecialChar()" [class.invalid]="!passwordHasSpecialChar()">
+          <mat-icon>{{ passwordHasSpecialChar() ? 'check_circle' : 'cancel' }}</mat-icon>
+          <span>Pelo menos um símbolo especial (&#64;, $, !, etc)</span>
+        </li>
+      </ul>
     </div>
-  </div>
+
+    <!-- Submit Button -->
+    <button
+      type="button"
+      mat-raised-button
+      [disabled]="registerForm.invalid"
+      (click)="save()"
+      class="register-button"
+    >
+      <mat-icon>how_to_reg</mat-icon>
+      Criar Conta
+    </button>
+  </form>
 </div>
