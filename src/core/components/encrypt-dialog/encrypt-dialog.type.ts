@@ -1,3 +1,5 @@
 export enum selectedMethod {
-    CESAR = 'Cesar'
+    CESAR = 'Cifra de Cesar',
+    INVSERSO = 'Inverso',
+    SUBSTITUICAO = 'Cifra de Substituição',
 }
