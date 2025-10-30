@@ -68,14 +68,14 @@ export class SignDialogComponent implements OnDestroy {
 
   private setEmailValidators(loginMethod: string) {
     const emailControl = this.signForm.get('email');
-    const usernameControl = this.signForm.get('username')
+    const usernameControl = this.signForm.get('username');
 
     if (loginMethod === 'email') {
       emailControl?.setValidators([Validators.email, Validators.required]);
-      usernameControl?.setValidators(null)
+      usernameControl?.setValidators(null);
     } else {
       emailControl?.setValidators([Validators.email]);
-      usernameControl?.setValidators([Validators.required])
+      usernameControl?.setValidators([Validators.required]);
     }
 
     emailControl?.updateValueAndValidity();

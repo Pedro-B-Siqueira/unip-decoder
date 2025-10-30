@@ -16,17 +16,11 @@
       </mat-select>
     </mat-form-field>
 
-    @if (encryptForm.get('selectedMethod')?.value === 'Cifra de Cesar') {
+    @if (encryptForm.get('selectedMethod')?.value === 'cesar') {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Quantidade de casas que deseja pular: </mat-label>
         <input matInput type="number" formControlName="jumpLetters" />
       </mat-form-field>
-    }
-
-    @if (encryptForm.get('selectedMethod')?.value === 'Inverso') {  
-    } 
-
-    @if (encryptForm.get('selectedMethod')?.value === 'Cifra de Substituição') {  
     }
 
     <mat-form-field appearance="fill" class="w-full textarea-field">

@@ -1,5 +1,4 @@
 <div class="login-box">
-  <!-- Header Section -->
   <div class="header-section">
     <div class="icon-container">
       <mat-icon class="login-icon">login</mat-icon>
@@ -8,9 +7,7 @@
     <p class="subtitle">Faça login para continuar</p>
   </div>
 
-  <!-- Form Section -->
   <form [formGroup]="signForm" class="form-section">
-    <!-- Login Method Toggle -->
     <div class="login-method-section">
       <mat-radio-group formControlName="loginMethod" class="radio-group">
         <mat-radio-button value="username" class="radio-option">
@@ -28,7 +25,6 @@
       </mat-radio-group>
     </div>
 
-    <!-- Username Field -->
     <mat-form-field
       *ngIf="signForm.get('loginMethod')?.value === 'username'"
       appearance="fill"
@@ -39,7 +35,6 @@
       <mat-icon matPrefix class="field-icon">account_circle</mat-icon>
     </mat-form-field>
 
-    <!-- Email Field -->
     <mat-form-field
       *ngIf="signForm.get('loginMethod')?.value === 'email'"
       appearance="fill"
@@ -50,7 +45,6 @@
       <mat-icon matPrefix class="field-icon">email</mat-icon>
     </mat-form-field>
 
-    <!-- Password Field -->
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Senha</mat-label>
       <input
@@ -68,7 +62,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Login Button -->
     <button
       type="button"
       mat-raised-button
@@ -80,7 +73,6 @@
       Entrar
     </button>
 
-    <!-- Register Link -->
     <div class="register-link-container">
       <button type="button" mat-button (click)="register()" class="register-link">
         Não tem uma conta? <strong>Cadastre-se</strong>
