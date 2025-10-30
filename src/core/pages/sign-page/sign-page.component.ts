@@ -3,7 +3,7 @@ import { UsersServiceApi } from '@api/users/users.service';
 import { CommonModule } from '@angular/common';
 import { SignDialogComponent } from '@core/components/sign-dialog/sign-dialog.component';
 import { RegisterDialogComponent } from '@core/components/register-dialog/register-dialog.component';
-import { SignPageService } from './sign-page.service'
+import { SignPageService } from './sign-page.service';
 import { Router } from '@angular/router';
 import Toast from 'typescript-toastify';
 
@@ -29,8 +29,8 @@ export class SignPageComponent {
 
   public async login(userId: string): Promise<void> {
     if (userId) {
-      await this.signPageService.updateLastLogin(userId)
-      localStorage.setItem('session', 'ok')
+      await this.signPageService.updateLastLogin(userId);
+      localStorage.setItem('session', 'ok');
       new Toast({
         position: 'top-center',
         toastMsg: '🎉 O login foi um sucesso! Seja bem-vindo!',

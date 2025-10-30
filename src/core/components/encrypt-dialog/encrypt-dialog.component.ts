@@ -58,7 +58,7 @@ export class EncryptDialogComponent {
   private setCesarValidators(cryptographyType: string) {
     const jumpLettersControl = this.encryptForm.get('jumpLetters');
 
-    if (cryptographyType === 'Cesar') {
+    if (cryptographyType === 'cesar') {
       jumpLettersControl?.setValidators([Validators.required]);
     } else {
       jumpLettersControl?.setValidators([]);
@@ -103,15 +103,14 @@ export class EncryptDialogComponent {
         this.encryptForm.get('commonText')?.value,
         this.encryptForm.get('jumpLetters')?.value ?? 1
       );
-    } 
-    else if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.INVSERSO) {
+    } else if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.INVSERSO) {
       this.encryptedText = await this.TextoInverso(this.encryptForm.get('commonText')?.value);
+    } else if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.SUBSTITUICAO) {
+      this.encryptedText = await this.cifraDeSubstituicao(
+        this.encryptForm.get('commonText')?.value
+      );
     }
-    else if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.SUBSTITUICAO) {
-      this.encryptedText = await this.cifraDeSubstituicao(this.encryptForm.get('commonText')?.value);
   }
-}
-
 
   public copyText(): void {
     new Toast({
@@ -124,7 +123,5 @@ export class EncryptDialogComponent {
       theme: 'light',
     });
   }
-}
-function split(arg0: string) {
-  throw new Error('Function not implemented.');
-}
+} 
+ 

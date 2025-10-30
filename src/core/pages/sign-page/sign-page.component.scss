@@ -1,38 +1,43 @@
 #bg-green-rays {
-  /* base */
   background-color: #0a3a1a;
 
-  /* 1) vinheta + leve brilho no centro */
   background-image:
-    radial-gradient(circle at 50% 50%,
-      rgba(255,255,255,.10) 0%,
-      rgba(255,255,255,0) 18%,
-      rgba(0,0,0,.25) 60%,
-      rgba(0,0,0,.85) 100%),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0) 18%,
+      rgba(0, 0, 0, 0.25) 60%,
+      rgba(0, 0, 0, 0.85) 100%
+    ),
+    conic-gradient(
+      from 45deg at 50% 50%,
+      rgba(0, 0, 0, 0.85) 0deg,
+      rgba(0, 0, 0, 0) 22.5deg,
+      rgba(0, 0, 0, 0) 45deg,
+      rgba(0, 0, 0, 0.85) 67.5deg,
+      rgba(0, 0, 0, 0.85) 90deg,
+      rgba(0, 0, 0, 0) 112.5deg,
+      rgba(0, 0, 0, 0) 135deg,
+      rgba(0, 0, 0, 0.85) 157.5deg,
+      rgba(0, 0, 0, 0.85) 180deg,
+      rgba(0, 0, 0, 0) 202.5deg,
+      rgba(0, 0, 0, 0) 225deg,
+      rgba(0, 0, 0, 0.85) 247.5deg,
+      rgba(0, 0, 0, 0.85) 270deg,
+      rgba(0, 0, 0, 0) 292.5deg,
+      rgba(0, 0, 0, 0) 315deg,
+      rgba(0, 0, 0, 0.85) 337.5deg,
+      rgba(0, 0, 0, 0.85) 360deg
+    );
 
-  /* 2) “raios” em 4 direções com bordas suaves */
-    conic-gradient(from 45deg at 50% 50%,
-      rgba(0,0,0,.85) 0deg,   rgba(0,0,0,0) 22.5deg,
-      rgba(0,0,0,0) 45deg,    rgba(0,0,0,.85) 67.5deg,
-      rgba(0,0,0,.85) 90deg,  rgba(0,0,0,0) 112.5deg,
-      rgba(0,0,0,0) 135deg,   rgba(0,0,0,.85) 157.5deg,
-      rgba(0,0,0,.85) 180deg, rgba(0,0,0,0) 202.5deg,
-      rgba(0,0,0,0) 225deg,   rgba(0,0,0,.85) 247.5deg,
-      rgba(0,0,0,.85) 270deg, rgba(0,0,0,0) 292.5deg,
-      rgba(0,0,0,0) 315deg,   rgba(0,0,0,.85) 337.5deg,
-      rgba(0,0,0,.85) 360deg);
-
-  /* mistura para ganhar o contraste do exemplo */
   background-blend-mode: multiply;
 
-  /* cobertura */
   background-size: cover;
-  background-attachment: fixed; /* opcional */
-  min-height: 100vh;            /* opcional */
+  background-attachment: fixed;
+  min-height: 100vh;
 
-  /* adicionando o blur sem bordas brancas */
-  backdrop-filter: blur(8px); /* desfoque no fundo */
-  -webkit-backdrop-filter: blur(8px); /* para compatibilidade com Safari */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 @keyframes slideIn {
@@ -64,4 +69,3 @@
 .slide-out {
   animation: slideOut 0.5s ease-in;
 }
-
