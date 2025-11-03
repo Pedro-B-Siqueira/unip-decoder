@@ -6,14 +6,16 @@ import { MainService } from './main.service';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import Toast from 'typescript-toastify';
+import { EncryptDialogComponent } from '@core/components/encrypt-dialog/encrypt-dialog.component';
+import { DecryptDialogComponent } from '@core/components/decrypt-dialog/decrypt-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 
 dayjs.extend(timezone);
 dayjs.extend(utc);
 
 @Component({
   selector: 'app-main',
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, EncryptDialogComponent, DecryptDialogComponent, MatIconModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
@@ -45,15 +47,7 @@ export class MainComponent implements OnInit {
 
     if (todayInUserTimeZone > lastLoginFormatted) {
       localStorage.removeItem('session');
-      new Toast({
-        position: 'top-center',
-        toastMsg: '❓ Sua sessão expirou! Faça login novamente.',
-        pauseOnHover: true,
-        autoCloseTime: 3000,
-        pauseOnFocusLoss: true,
-        type: 'warning',
-        theme: 'dark',
-      });
+      alert('❓ Sua sessão expirou! Faça login novamente.');
     }
 
     const logged = localStorage.getItem('session') === 'ok';

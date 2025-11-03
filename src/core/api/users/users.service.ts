@@ -4,7 +4,6 @@ import { Users, UsersSaveParams, UsersSearchParams } from './users.type';
 import { Db } from '@api/db/dbConnect';
 import { SEARCH_USERS } from './users.query';
 import bcrypt from 'bcryptjs';
-import Toast from 'typescript-toastify';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -63,42 +62,14 @@ export class UsersServiceApi {
         if (await bcrypt.compare(params.password, hashedPassword)) {
           return data[0] as Users;
         }
-        new Toast({
-          position: 'top-center',
-          toastMsg: '⚠️ As senhas não coincidem',
-          autoCloseTime: 3000,
-          canClose: true,
-          showProgress: true,
-          pauseOnHover: true,
-          pauseOnFocusLoss: true,
-          type: 'error',
-          theme: 'dark',
-        });
+        alert('⚠️ As senhas não coincidem')
         throw new Error(`A conta não existe no banco de dados`);
       } else {
-        new Toast({
-          position: 'top-center',
-          toastMsg: '⚠️ A conta que você inseriu não existe',
-          autoCloseTime: 3000,
-          canClose: true,
-          showProgress: true,
-          pauseOnHover: true,
-          pauseOnFocusLoss: true,
-          type: 'error',
-          theme: 'dark',
-        });
+        alert('⚠️ A conta que você inseriu não existe')
         throw new Error(`As senhas não coincidem`);
       }
     } else {
-      new Toast({
-        position: 'bottom-right',
-        toastMsg: '⚠️ Houve um erro ao tentar verificar o login',
-        pauseOnHover: true,
-        autoCloseTime: 3000,
-        pauseOnFocusLoss: true,
-        type: 'error',
-        theme: 'dark',
-      });
+      alert('⚠️ Houve um erro ao tentar verificar o login')
       throw new Error(`Houve um erro ao buscar esse usuário: ${error?.message || ''}`);
     }
   }
@@ -119,42 +90,17 @@ export class UsersServiceApi {
       const { data, error } = await mutation;
 
       if (error) {
-        new Toast({
-          position: 'bottom-right',
-          toastMsg: '⚠️ Houve um erro ao tentar salvar o usuário',
-          pauseOnHover: true,
-          autoCloseTime: 3000,
-          pauseOnFocusLoss: true,
-          type: 'error',
-          theme: 'dark',
-        });
+        alert('⚠️ Houve um erro ao tentar salvar o usuário')
         throw new Error(`Houve um erro ao salvar o usuário: ${error?.message || ''}`);
       }
 
       if (data) {
         return data[0] as Users;
       }
-
-      new Toast({
-        position: 'bottom-right',
-        toastMsg: '⚠️ Houve um erro ao tentar salvar o usuário',
-        pauseOnHover: true,
-        autoCloseTime: 3000,
-        pauseOnFocusLoss: true,
-        type: 'error',
-        theme: 'dark',
-      });
+      alert('⚠️ Houve um erro ao tentar salvar o usuário')
       throw new Error('Erro desconhecido ao salvar o usuário.');
     } catch (error) {
-      new Toast({
-        position: 'bottom-right',
-        toastMsg: '⚠️ Houve um erro ao tentar salvar o usuário',
-        pauseOnHover: true,
-        autoCloseTime: 3000,
-        pauseOnFocusLoss: true,
-        type: 'error',
-        theme: 'dark',
-      });
+      alert('⚠️ Houve um erro ao tentar salvar o usuário')
       throw new Error('Erro ao salvar o usuário.');
     }
   }
@@ -169,15 +115,7 @@ export class UsersServiceApi {
     const { data, error } = await mutation;
 
     if (error) {
-      new Toast({
-        position: 'bottom-right',
-        toastMsg: '⚠️ Houve um erro ao tentar o login',
-        pauseOnHover: true,
-        autoCloseTime: 3000,
-        pauseOnFocusLoss: true,
-        type: 'error',
-        theme: 'dark',
-      });
+      alert('⚠️ Houve um erro ao tentar atualizar o usuário')
       throw new Error(`Houve um erro ao atualizar esse usuário: ${error?.message || ''}`);
     }
   }

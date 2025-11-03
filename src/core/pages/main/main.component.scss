@@ -1,0 +1,14 @@
+.arrows-icon {
+  color: #fff;
+  width: 1em;
+  height: 1em;
+  font-size: clamp(56px, 8vw, 120px);
+  transform: rotate(90deg);       /* coluna no mobile */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .arrows-icon { transform: rotate(0deg); }  /* fila no md+ */
+}

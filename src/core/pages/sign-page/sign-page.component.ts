@@ -5,7 +5,6 @@ import { SignDialogComponent } from '@core/components/sign-dialog/sign-dialog.co
 import { RegisterDialogComponent } from '@core/components/register-dialog/register-dialog.component';
 import { SignPageService } from './sign-page.service'
 import { Router } from '@angular/router';
-import Toast from 'typescript-toastify';
 
 @Component({
   selector: 'app-sign-page',
@@ -31,15 +30,7 @@ export class SignPageComponent {
     if (userId) {
       await this.signPageService.updateLastLogin(userId)
       localStorage.setItem('session', 'ok')
-      new Toast({
-        position: 'top-center',
-        toastMsg: '🎉 O login foi um sucesso! Seja bem-vindo!',
-        pauseOnHover: true,
-        autoCloseTime: 2500,
-        pauseOnFocusLoss: true,
-        type: 'success',
-        theme: 'light',
-      });
+      alert('🎉 O login foi um sucesso! Seja bem-vindo!')
       this.router.navigate([userId + '/central']);
     }
   }

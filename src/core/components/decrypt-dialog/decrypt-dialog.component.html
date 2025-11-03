@@ -1,1 +1,100 @@
-<p>decrypt-dialog works!</p>
+<div class="decrypto-box">
+  <div class="header-section">
+    <div class="icon-container">
+      <mat-icon class="lock-icon">lock_open_right</mat-icon>
+    </div>
+    <h2>DESCRIPTOGRAFAR</h2>
+  </div>
+
+  <form [formGroup]="form" class="form-section">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Tipo de descriptografia</mat-label>
+      <mat-select id="crypto" formControlName="method" required>
+        @for (option of methodOptions; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (form.get('method')?.value === Methods.CESAR) {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Deslocamento (casas)</mat-label>
+        <input matInput type="number" formControlName="shift" />
+      </mat-form-field>
+    }
+
+    <mat-form-field appearance="fill" class="w-full textarea-field">
+      <mat-label>Texto para descriptografar</mat-label>
+      <textarea
+        matInput
+        placeholder="Digite o que será descriptografado..."
+        formControlName="ciphertext"
+        required
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onDecrypt()"
+      [disabled]="form.invalid"
+      class="decrypt-button"
+    >
+      <mat-icon>undo</mat-icon>
+      Descriptografar Agora
+    </button>
+  </form>
+
+  @if (form.get('method')?.value === Methods.SUBSTITUICAO) {
+    <div class="warn-banner" role="note">
+      <mat-icon>info</mat-icon>
+      Resultados podem estar incorretos ou múltiplos. Tente a opção que fizer mais sentido.
+    </div>
+  }
+
+  @if (form.get('method')?.value === Methods.SUBSTITUICAO && plaintextCandidates.length) {
+    <div class="candidates-section">
+      <div class="candidates-header">
+        <mat-icon class="check-icon">check_circle</mat-icon>
+        <h4>Possíveis textos descriptografados</h4>
+      </div>
+
+      <div class="candidates-list">
+        @for (c of plaintextCandidates; track c; let i = $index) {
+          <div class="candidate-card">
+            <div class="candidate-title">Opção {{ i + 1 }}</div>
+            <p class="candidate-text">{{ c }}</p>
+            <mat-icon class="icon copy-icon" [cdkCopyToClipboard]="c" (click)="notifyCopied()">
+              content_copy
+            </mat-icon>
+          </div>
+        }
+      </div>
+
+      <div class="success-badge">
+        <mat-icon>verified</mat-icon>
+        Decodificação por substituição concluída
+      </div>
+    </div>
+  } @else if (plaintext) {
+    <div class="result-section">
+      <div class="result-header">
+        <mat-icon class="check-icon">check_circle</mat-icon>
+        <h4>Texto Descriptografado</h4>
+      </div>
+
+      <div class="result-content">
+        <p class="decrypted-text">{{ plaintext }}</p>
+        <mat-icon class="icon copy-icon" [cdkCopyToClipboard]="plaintext" (click)="notifyCopied()">
+          content_copy
+        </mat-icon>
+      </div>
+
+      <div class="success-badge">
+        <mat-icon>verified</mat-icon>
+        Descriptografia bem-sucedida
+      </div>
+    </div>
+  }
+</div>
