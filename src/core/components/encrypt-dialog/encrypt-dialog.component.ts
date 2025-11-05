@@ -48,6 +48,7 @@ export class EncryptDialogComponent {
     });
     this.encryptForm.get('selectedMethod')?.valueChanges.subscribe((value) => {
       this.setCesarValidators(value);
+      this.encryptedText = '';
     });
 
     this.setCesarValidators(this.encryptForm.get('selectedMethod')?.value);
@@ -56,7 +57,7 @@ export class EncryptDialogComponent {
   private setCesarValidators(cryptographyType: string) {
     const jumpLettersControl = this.encryptForm.get('jumpLetters');
 
-    if (cryptographyType === 'Cesar') {
+    if (cryptographyType === 'cesar') {
       jumpLettersControl?.setValidators([Validators.required]);
     } else {
       jumpLettersControl?.setValidators([]);
@@ -78,11 +79,34 @@ export class EncryptDialogComponent {
       .join('');
   }
 
+  private async cifraDeSubstituicao(text: string): Promise<string> {
+    return text
+      .split('')
+      .map((caracter) => {
+        if (caracter.match(/[a-zA-Z]/i)) {
+          const ajuste = caracter === caracter.toLowerCase() ? 96 : 64;
+          return (caracter.charCodeAt(0) - ajuste).toString();
+        }
+        return caracter;
+      })
+      .join('');
+  }
+
+  private async TextoInverso(text: string): Promise<string> {
+    return text.split('').reverse().join('');
+  }
+
   public async encrypt(): Promise<void> {
     if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.CESAR) {
       this.encryptedText = await this.cifraDeCesar(
         this.encryptForm.get('commonText')?.value,
         this.encryptForm.get('jumpLetters')?.value ?? 1
+      );
+    } else if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.INVSERSO) {
+      this.encryptedText = await this.TextoInverso(this.encryptForm.get('commonText')?.value);
+    } else if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.SUBSTITUICAO) {
+      this.encryptedText = await this.cifraDeSubstituicao(
+        this.encryptForm.get('commonText')?.value
       );
     }
   }

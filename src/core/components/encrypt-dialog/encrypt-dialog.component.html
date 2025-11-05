@@ -1,1 +1,69 @@
-<p>encrypt-dialog works!</p>
+<div class="crypto-box">
+  <div class="header-section">
+    <div class="icon-container">
+      <mat-icon class="lock-icon">lock</mat-icon>
+    </div>
+    <h2>CRIPTOGRAFAR</h2>
+  </div>
+
+  <form [formGroup]="encryptForm" class="form-section">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Tipo de criptografia</mat-label>
+      <mat-select id="crypto" formControlName="selectedMethod" required>
+        @for (option of selectOptions; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (encryptForm.get('selectedMethod')?.value === 'cesar') {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Quantidade de casas que deseja pular: </mat-label>
+        <input matInput type="number" formControlName="jumpLetters" />
+      </mat-form-field>
+    }
+
+    <mat-form-field appearance="fill" class="w-full textarea-field">
+      <mat-label>Texto para criptografar</mat-label>
+      <textarea
+        matInput
+        placeholder="Digite o que será criptografado..."
+        formControlName="commonText"
+        required
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="encrypt()"
+      [disabled]="encryptForm.invalid"
+      class="encrypt-button"
+    >
+      <mat-icon>shield</mat-icon>
+      Criptografar Agora
+    </button>
+  </form>
+
+  @if (encryptedText) {
+    <div class="result-section">
+      <div class="result-header">
+        <mat-icon class="check-icon">check_circle</mat-icon>
+        <h4>Texto Criptografado</h4>
+      </div>
+
+      <div class="result-content">
+        <p class="encrypted-text">{{ encryptedText }}</p>
+        <mat-icon class="icon copy-icon" [cdkCopyToClipboard]="encryptedText" (click)="copyText()">
+          content_copy
+        </mat-icon>
+      </div>
+
+      <div class="success-badge">
+        <mat-icon>verified</mat-icon>
+        Criptografia bem-sucedida
+      </div>
+    </div>
+  }
+</div>
