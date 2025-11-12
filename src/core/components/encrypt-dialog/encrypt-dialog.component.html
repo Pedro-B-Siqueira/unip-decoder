@@ -16,7 +16,7 @@
       </mat-select>
     </mat-form-field>
 
-    @if (encryptForm.get('selectedMethod')?.value === 'cesar') {
+    @if (encryptForm.get('selectedMethod')?.value === cryptographMethods.CESAR) {
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Quantidade de casas que deseja pular: </mat-label>
         <input matInput type="number" formControlName="jumpLetters" />
@@ -27,11 +27,19 @@
       <mat-label>Texto para criptografar</mat-label>
       <textarea
         matInput
+        #input
         placeholder="Digite o que será criptografado..."
         formControlName="commonText"
-        required
         rows="4"
+        maxlength="128"
       ></textarea>
+      <mat-hint align="end" class="tw-text-xs tw-text-color-secundary">({{ input.value.length || 0 }}/{{ 128 }})</mat-hint>
+      <mat-error
+          *ngIf="encryptForm.get('commomText')?.hasError('maxLength')"
+          class="text-xs font-normal text-red-900"
+        >
+          O texto inserido ultrapassou os 128 caracteres
+        </mat-error>
     </mat-form-field>
 
     <button

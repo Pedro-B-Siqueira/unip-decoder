@@ -26,7 +26,7 @@ import { selectedMethod } from '../encrypt-dialog/encrypt-dialog.type';
   styleUrl: './decrypt-dialog.component.scss',
 })
 export class DecryptDialogComponent {
-  public readonly Methods = selectedMethod;
+  public readonly cryptographMethods = selectedMethod;
   public readonly MAX_SUGGESTIONS = 6;
 
   public form: FormGroup;
@@ -37,32 +37,37 @@ export class DecryptDialogComponent {
   constructor(private readonly fb: FormBuilder) {
     this.form = this.fb.group({
       method: [null, Validators.required],
-      ciphertext: ['', Validators.required],
-      shift: [1],
+      ciphertext: ['', Validators.required, Validators.maxLength(128)],
+      jumpLetters: [1],
     });
 
     this.form.get('method')?.valueChanges.subscribe((value) => {
-      this.applyCesarValidators(value);
+      this.setCesarValidators(value);
       this.plaintext = '';
       this.plaintextCandidates = [];
     });
 
-    this.applyCesarValidators(this.form.get('method')?.value);
+    this.setCesarValidators(this.form.get('method')?.value);
   }
 
-  private applyCesarValidators(method: string) {
-    const ctrl = this.form.get('shift');
-    if (method === this.Methods.CESAR) ctrl?.setValidators([Validators.required]);
-    else ctrl?.setValidators([]);
-    ctrl?.updateValueAndValidity();
+  private setCesarValidators(cryptographyType: string) {
+    const jumpLettersControl = this.form.get('jumpLetters');
+
+    if (cryptographyType === selectedMethod.CESAR) {
+      jumpLettersControl?.setValidators([Validators.required]);
+    } else {
+      jumpLettersControl?.setValidators([]);
+    }
+
+    jumpLettersControl?.updateValueAndValidity();
   }
 
   private posMod(n: number, m: number): number {
     return ((n % m) + m) % m;
   }
 
-  private async decryptCesar(text: string, shift: number): Promise<string> {
-    const k = this.posMod(shift, 26);
+  private async decryptCesar(text: string, jumpLetters: number): Promise<string> {
+    const k = this.posMod(jumpLetters, 26);
     return text
       .split('')
       .map((c) => {
@@ -159,12 +164,12 @@ export class DecryptDialogComponent {
     const method = this.form.get('method')?.value;
     const text = this.form.get('ciphertext')?.value ?? '';
 
-    if (method === this.Methods.CESAR) {
-      const shift = this.form.get('shift')?.value ?? 1;
-      this.plaintext = await this.decryptCesar(text, shift);
-    } else if (method === this.Methods.INVSERSO) {
+    if (method === this.cryptographMethods.CESAR) {
+      const jumpLetters = this.form.get('jumpLetters')?.value ?? 1;
+      this.plaintext = await this.decryptCesar(text, jumpLetters);
+    } else if (method === this.cryptographMethods.INVSERSO) {
       this.plaintext = await this.reverseText(text);
-    } else if (method === this.Methods.SUBSTITUICAO) {
+    } else if (method === this.cryptographMethods.SUBSTITUICAO) {
       this.plaintextCandidates = this.decryptNumericSubstitution(text, this.MAX_SUGGESTIONS);
       this.plaintext = this.plaintextCandidates[0] ?? '';
     }

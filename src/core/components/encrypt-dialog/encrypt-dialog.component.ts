@@ -29,13 +29,15 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule,
+    MatIconModule
   ],
   templateUrl: './encrypt-dialog.component.html',
   styleUrls: ['./encrypt-dialog.component.scss'],
 })
 export class EncryptDialogComponent {
   public encryptForm: FormGroup;
+  public readonly cryptographMethods = selectedMethod
+
   public inputText: string = '';
   public encryptedText: string = '';
   public selectOptions: string[] = Object.values(selectedMethod);
@@ -43,7 +45,7 @@ export class EncryptDialogComponent {
   public constructor(private readonly formBuilder: FormBuilder) {
     this.encryptForm = this.formBuilder.group({
       selectedMethod: [null, Validators.required],
-      commonText: ['', Validators.required],
+      commonText: ['', Validators.required, Validators.maxLength(128)],
       jumpLetters: [1],
     });
     this.encryptForm.get('selectedMethod')?.valueChanges.subscribe((value) => {
@@ -57,7 +59,7 @@ export class EncryptDialogComponent {
   private setCesarValidators(cryptographyType: string) {
     const jumpLettersControl = this.encryptForm.get('jumpLetters');
 
-    if (cryptographyType === 'cesar') {
+    if (cryptographyType === selectedMethod.CESAR) {
       jumpLettersControl?.setValidators([Validators.required]);
     } else {
       jumpLettersControl?.setValidators([]);
@@ -97,14 +99,14 @@ export class EncryptDialogComponent {
   }
 
   public async encrypt(): Promise<void> {
-    if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.CESAR) {
+    if (this.encryptForm.get('selectedMethod')?.value === this.cryptographMethods.CESAR) {
       this.encryptedText = await this.cifraDeCesar(
         this.encryptForm.get('commonText')?.value,
         this.encryptForm.get('jumpLetters')?.value ?? 1
       );
-    } else if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.INVSERSO) {
+    } else if (this.encryptForm.get('selectedMethod')?.value === this.cryptographMethods.INVSERSO) {
       this.encryptedText = await this.TextoInverso(this.encryptForm.get('commonText')?.value);
-    } else if (this.encryptForm.get('selectedMethod')?.value === selectedMethod.SUBSTITUICAO) {
+    } else if (this.encryptForm.get('selectedMethod')?.value === this.cryptographMethods.SUBSTITUICAO) {
       this.encryptedText = await this.cifraDeSubstituicao(
         this.encryptForm.get('commonText')?.value
       );

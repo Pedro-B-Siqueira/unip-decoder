@@ -1,5 +1,5 @@
 export enum selectedMethod {
-    CESAR = 'cesar',
-    INVSERSO = 'inverso',
-    SUBSTITUICAO = 'substituicao',
+    CESAR = 'Cesar',
+    INVSERSO = 'Inverso',
+    SUBSTITUICAO = 'Substituição',
 }
